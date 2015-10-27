@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Requests\TicketFormRequest;
 use App\Http\Controllers\Controller;
 use App\Ticket;
+use App\Comment;
 
 class TicketsController extends Controller
 {
@@ -19,7 +20,7 @@ class TicketsController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
-        
+
         return view('tickets.index')->with('tickets', $tickets);
     }
 
@@ -40,29 +41,29 @@ class TicketsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(TicketFormRequest $request)
-    {        
+    {
         $slug = uniqid();
-        
+
         $ticket = new Ticket;
-        
+
         $ticket->title = $request->get('title');
         $ticket->content = $request->get('content');
         $ticket->slug = $slug;
-        
+
         $ticket->save();
-        
+
         $data = [
             'ticket' => 'Learning Laravel'
         ];
-        
+
         Mail::send('emails.ticket', $data, function($message){
             $message->from('grantskipper_2017@depauw.edu', 'Learning Laravel');
-            
+
             $message->to('grantskipper_2017@depauw.edu')->subject('There is a new Ticket');
         });
-        
+
         return redirect('contact')->with('status', 'Your ticket has been created! It\' unique ID is: '.$slug);
-        
+
     }
 
     /**
@@ -74,8 +75,9 @@ class TicketsController extends Controller
     public function show($slug)
     {
         $ticket = Ticket::where('slug', $slug)->firstOrFail();
-        
-        return view('tickets.show')->with('ticket', $ticket);
+        $comments = $ticket->comments()->get();
+
+        return view('tickets.show', compact('ticket','comments'));
     }
 
     /**
@@ -87,7 +89,7 @@ class TicketsController extends Controller
     public function edit($slug)
     {
         $ticket = Ticket::where('slug', $slug)->firstOrFail();
-        
+
         return view('tickets.edit')->with('ticket', $ticket);
     }
 
@@ -101,20 +103,20 @@ class TicketsController extends Controller
     public function update(TicketFormRequest $request, $slug)
     {
         $ticket = Ticket::where('slug', $slug)->firstOrFail();
-        
+
         $ticket->title = $request->get('title');
         $ticket->content = $request->get('content');
-        
+
         if ($request->get('status') != null){
             $ticket->status = 0;
         } else {
             $ticket->status = 1;
         }
-        
+
         $ticket->save();
-        
+
         return redirect(action('TicketsController@edit', $ticket->slug))->with('status', 'The ticket '.$ticket->slug.' has been successfully updated.');
-        
+
     }
 
     /**
@@ -127,7 +129,7 @@ class TicketsController extends Controller
     {
         $ticket = Ticket::where('slug', $slug)->firstOrFail();
         $ticket->delete();
-        
+
         return redirect('/tickets')->with('status', 'Ticket: '.$slug.' has been deleted');
     }
 }
