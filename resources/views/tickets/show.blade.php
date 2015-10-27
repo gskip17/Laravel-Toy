@@ -38,7 +38,7 @@
         <legend>Reply</legend>
         <div class="form-group">
           <div class="col-lg-12">
-            <textarea class="form-control" rows="3" id="content"\name="content"></textarea>
+            <textarea class="form-control" rows="3" id="content" name="content"></textarea>
           </div>
     </div>
             <div class="form-group">

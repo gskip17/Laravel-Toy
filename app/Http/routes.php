@@ -25,6 +25,8 @@ Route::get('/tickets/{slug}/edit','TicketsController@edit');
 Route::get('/tickets/{slug}/delete','TicketsController@destroy');
 Route::post('/tickets/{slug}/edit','TicketsController@update');
 
+Route::post('/comment','CommentsController@newComment');
+
 Route::get('sendemail', function () {
     $data = array(
         'name' => "Learning Laravel",

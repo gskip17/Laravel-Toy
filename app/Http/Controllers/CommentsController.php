@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Requests\CommentRequestForm;
 use App\Http\Controllers\Controller;
+use App\Comment;
 
 class CommentsController extends Controller
 {
@@ -22,7 +24,7 @@ class CommentsController extends Controller
 
         $comment->save();
 
-        return->redirect()->back()->with('status', 'Your comment has been created!');
+        return redirect()->back()->with('status', 'Your comment has been created!');
 
     }
 }
