@@ -33,6 +33,11 @@ Route::get('users/register', 'Auth\AuthController@getRegister');
 Route::post('users/register', 'Auth\AuthController@postRegister');
 Route::get('users/logout', 'Auth\AuthController@getLogout');
 
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'auth'],
+function(){
+  Route::get('users', 'UsersController@index');
+});
+
 
 
 
