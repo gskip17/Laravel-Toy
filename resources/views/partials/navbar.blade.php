@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="home">Learning Laravel</a>
+      <a class="navbar-brand" href="{{action('PagesController@home')}}">Learning Laravel</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -23,8 +23,12 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Member <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Register</a></li>
-                <li><a href="#">Login</a></li>
+                @if(Auth::check())
+                <li><a href="users/logout">Logout</a>
+                @else
+                <li><a href="{{action('Auth\AuthController@getRegister')}}">Register</a></li>
+                <li><a href="{{action('Auth\AuthController@getLogin')}}">Login</a></li>
+                @endif
               </ul>
             </li>
         </ul>

@@ -27,6 +27,15 @@ Route::post('/tickets/{slug}/edit','TicketsController@update');
 
 Route::post('/comment','CommentsController@newComment');
 
+Route::get('users/login', 'Auth\AuthController@getLogin');
+Route::post('users/login', 'Auth\AuthController@postLogin');
+Route::get('users/register', 'Auth\AuthController@getRegister');
+Route::post('users/register', 'Auth\AuthController@postRegister');
+Route::get('users/logout', 'Auth\AuthController@getLogout');
+
+
+
+
 Route::get('sendemail', function () {
     $data = array(
         'name' => "Learning Laravel",
